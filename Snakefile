@@ -165,7 +165,7 @@ rule partDNA:
         "bench/{filename}_{r}.partdna.csv"
     shell:
         """
-        {input.script} -i {input.in_file} -o {output.out_file} -r {wildcards.r}
+        {input.script} -i {input.in_file} -o {output.out_file} -r {wildcards.r} -d
         """
 
 rule copy_non_split:
