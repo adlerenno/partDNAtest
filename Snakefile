@@ -310,6 +310,7 @@ rule build_bcr:
         script = 'BCR_LCP_GSA/BCR_LCP_GSA'
     shell:
         """
+        rm -r ./BCR_LCP_GSA/
         git clone https://github.com/giovannarosone/BCR_LCP_GSA
         cd BCR_LCP_GSA
         make
@@ -320,6 +321,7 @@ rule build_ropebwt:
         script = 'ropebwt/ropebwt'
     shell:
         """
+        rm -r ./ropebwt
         git clone https://github.com/lh3/ropebwt
         cd ropebwt
         make
@@ -330,6 +332,7 @@ rule build_ropebwt2:
         script = 'ropebwt2/ropebwt2'
     shell:
         """
+        rm -r ./ropbebwt2
         git clone https://github.com/lh3/ropebwt2
         cd ropebwt2
         make
@@ -340,6 +343,7 @@ rule build_ropebwt3:
         script = 'ropebwt3/ropebwt3'
     shell:
         """
+        rm -r ./ropebwt3
         git clone https://github.com/lh3/ropebwt3
         cd ropebwt3
         make
@@ -350,6 +354,7 @@ rule build_bigbwt:
         script = 'Big-BWT/bigbwt'
     shell:
         """
+        rm -r ./Big-BWT
         pip install psutil
         git clone https://gitlab.com/manzai/Big-BWT.git
         cd Big-BWT
@@ -362,6 +367,7 @@ rule build_grlbwt:
         script2 = 'grlBWT/build/grl2plain',
     shell:
         """
+        rm -r ./grlBWT
         git clone https://github.com/simongog/sdsl-lite.git
         cd sdsl-lite
         ./install.sh /usr/local/
@@ -379,6 +385,7 @@ rule build_egap:
         script = 'egap/eGap'
     shell:
         """
+        rm -r ./egap
         git clone https://github.com/felipelouza/egap.git
         cd egap
         make 
@@ -389,6 +396,7 @@ rule build_gsufsort:
         script = 'gsufsort/gsufsort-64'
     shell:
         """
+        rm -r ./gsufsort
         git clone https://github.com/felipelouza/gsufsort.git
         cd gsufsort
         make 
@@ -399,6 +407,7 @@ rule build_r_pf:
         script = 'r-pfbwt/build/rpfbwt'
     shell:
         """
+        rm -r ./r-pfbwt
         git clone https://github.com/marco-oliva/r-pfbwt.git
         cd r-pfbwt
         mkdir build && cd build
@@ -411,6 +420,7 @@ rule build_pfp:
         script = 'pfp/build/pfp++'
     shell:
         """
+        rm -r ./pfp
         git clone https://github.com/marco-oliva/pfp.git
         cd pfp
         mkdir build && cd build
@@ -423,6 +433,7 @@ rule build_divsufsort:
         script = 'divsufsort-dna/build/dss'
     shell:
         """
+        rm -r ./divsufsort-dna
         git clone https://github.com/y-256/libdivsufsort.git
         cd libdivsufsort
         mkdir -p build
@@ -444,6 +455,7 @@ rule build_part_dna:
         script = "partDNA/build/exc"
     shell:
         """
+        rm -r ./partDNA
         git clone https://github.com/adlerenno/partDNA.git
         cd partDNA
         unzip sais-2.4.1.zip
@@ -466,7 +478,7 @@ rule build_sra_toolkit:
         'sratoolkit.3.0.0-mac64/bin/prefetch'
     shell:
         """
+        rm -r ./sratoolkit.3.0.0-mac64
         wget --output-document sratoolkit.tar.gz https://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/current/sratoolkit.current-centos_linux64.tar.gz
         tar -vxzf sratoolkit.tar.gz
-        
         """
