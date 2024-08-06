@@ -54,6 +54,10 @@ rule convert_targets:
         [f'data_bwt/{approach}/R64.fa_split_{r}' for approach in APPROACHES for r in range(3, 6)],
         [f'data_bwt/{approach}/ASM19595.fa' for approach in APPROACHES],
         [f'data_bwt/{approach}/ASM19595.fa_split_{r}' for approach in APPROACHES for r in range(3, 6)]
+    shell:
+        """
+        python3 scripts/collect_benchmark.py
+        """
 
 rule clean:
     shell:
