@@ -43,17 +43,17 @@ for path in [BENCHMARK, SOURCE, SPLIT, INPUT, OUTPUT]:
 rule convert_targets:
     input:
         [f'data_bwt/{approach}/GRCh38.fa' for approach in APPROACHES],
-        [f'data_bwt/{approach}/GRCh38.fa_split_{r}' for approach in APPROACHES for r in range(3, 6)],
+        [f'data_bwt/{approach}/GRCh38_split_{r}.{DATA_TYPE[approach]}' for approach in APPROACHES for file in [] for r in range(3, 6)],
         [f'data_bwt/{approach}/GRCm39.fa' for approach in APPROACHES],
-        [f'data_bwt/{approach}/GRCm39.fa_split_{r}' for approach in APPROACHES for r in range(3, 6)],
+        [f'data_bwt/{approach}/GRCm39_split_{r}.{DATA_TYPE[approach]}' for approach in APPROACHES for r in range(3, 6)],
         [f'data_bwt/{approach}/TAIR10.fa' for approach in APPROACHES],
-        [f'data_bwt/{approach}/TAIR10.fa_split_{r}' for approach in APPROACHES for r in range(3, 6)],
+        [f'data_bwt/{approach}/TAIR10_split_{r}.{DATA_TYPE[approach]}' for approach in APPROACHES for r in range(3, 6)],
         [f'data_bwt/{approach}/ASM584.fa' for approach in APPROACHES],
-        [f'data_bwt/{approach}/ASM584.fa_split_{r}' for approach in APPROACHES for r in range(3, 6)],
+        [f'data_bwt/{approach}/ASM584_split_{r}.{DATA_TYPE[approach]}' for approach in APPROACHES for r in range(3, 6)],
         [f'data_bwt/{approach}/R64.fa' for approach in APPROACHES],
-        [f'data_bwt/{approach}/R64.fa_split_{r}' for approach in APPROACHES for r in range(3, 6)],
+        [f'data_bwt/{approach}/R64_split_{r}.{DATA_TYPE[approach]}' for approach in APPROACHES for r in range(3, 6)],
         [f'data_bwt/{approach}/ASM19595.fa' for approach in APPROACHES],
-        [f'data_bwt/{approach}/ASM19595.fa_split_{r}' for approach in APPROACHES for r in range(3, 6)]
+        [f'data_bwt/{approach}/ASM19595_split_{r}.{DATA_TYPE[approach]}' for approach in APPROACHES for r in range(3, 6)]
     shell:
         """
         python3 scripts/collect_benchmark.py
@@ -153,9 +153,25 @@ rule fetch_ncbi_sra:
 
 rule prepare_files:
     input:
-        in_file = 'split/{filename}'
+        in_file = 'split/{filename}.fa_split_{r}'
     output:
-        out_file = 'data/{filename}'
+        'data/{filename}_split_{r}.fq',
+        'data/{filename}_split_{r}.fa.gz',
+        'data/{filename}_split_{r}.fq.gz',
+        'data/{filename}_split_{r}.owpl',
+        out_file = 'data/{filename}_split_{r}.fa',
+    shell:
+        """python3 ./scripts/prepare_files.py {input.in_file} {output.out_file}"""
+
+rule prepare_files_2:
+    input:
+        in_file = 'split/{filename}.fa'
+    output:
+        'data/{filename}.fq',
+        'data/{filename}.fa.gz',
+        'data/{filename}.fq.gz',
+        'data/{filename}.owpl',
+        out_file = 'data/{filename}.fa'
     shell:
         """python3 ./scripts/prepare_files.py {input.in_file} {output.out_file}"""
 
