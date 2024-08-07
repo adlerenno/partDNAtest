@@ -1,6 +1,7 @@
 from os import listdir
 import csv
 import re
+import sys
 
 
 def parse_filename(filename):
@@ -27,13 +28,16 @@ def parse_filename(filename):
     # If neither pattern matches, raise an error
     raise ValueError(f"Filename '{filename}' does not match expected patterns")
 
+def combine(in_dir, out_file):
+    files = listdir(in_dir)
+    with open(out_file, "w") as f:
+        writer = csv.writer(f, delimiter="\t")
+        writer.writerow(['algorithm', 'dataset', 'r', ])
+        for fp in files:
+            with open(fp, 'r') as g:
+                reader = csv.reader(g, delimiter="\t")
+                next(reader)  # Headers line
+                writer.writerow(parse_filename(fp) + next(reader))
 
-files = listdir('bench')
-with open('benchmark.csv', "w") as f:
-    writer = csv.writer(f, delimiter="\t")
-    writer.writerow(['algorithm', 'dataset', 'r', ])
-    for fp in files:
-        with open(fp, 'r') as g:
-            reader = csv.reader(g, delimiter="\t")
-            next(reader)  # Headers line
-            writer.writerow(parse_filename(fp) + next(reader))
+if __name__ == '__main__':
+    combine(sys.argv[1], sys.argv[2])
