@@ -42,7 +42,7 @@ DATA_TYPE = {
 }
 DATA_SETS = ['GRCh38', 'GRCm39', 'TAIR10', 'ASM584', 'R64', 'ASM19595']
 R_VALUES = list(range(3, 6))
-OMITTED_COMBINATIONS = [('bcr', 'GRCh38', 5), ('bcr', 'GRCh38', 4), ('bcr', 'GRCh38')]
+OMITTED_COMBINATIONS = [('bcr', 'GRCh38', 4), ('bcr', 'GRCh38')] + [(approach, 'GRCh38', 5) for approach in APPROACHES]
 
 rule target:
     input:
@@ -70,7 +70,7 @@ rule get_results:
         python3 scripts/get_file_stats.py {output.stats} {input.set}
         """
 
-rule clean:
+rule clean:  # TODO: Clear installations and build repositories.
     shell:
         """
         rm -rf ./bench
