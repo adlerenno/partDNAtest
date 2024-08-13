@@ -234,7 +234,6 @@ rule egap:
         script = 'egap/eGap',
         source = 'data/{filename}'
     output:
-        destination='data_bwt/egap/{filename}',
         indicator = 'indicators/{filename}.egap'
     threads: NUMBER_OF_PROCESSORS
     benchmark: 'bench/{filename}.egap.csv'
