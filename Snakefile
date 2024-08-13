@@ -13,9 +13,6 @@ INDICATORS = './indicators/'
 BENCHMARK = './bench/'
 RESULT = './result/'
 
-for path in [BENCHMARK, SOURCE, SPLIT, INPUT, TEMP, OUTPUT, INDICATORS, RESULT]:
-    os.makedirs(path, exist_ok=True)
-
 APPROACHES = [
     'bcr',
     'ropebwt',
@@ -43,6 +40,10 @@ DATA_TYPE = {
 DATA_SETS = ['GRCh38', 'GRCm39', 'TAIR10', 'ASM584', 'R64', 'ASM19595']
 R_VALUES = list(range(3, 6))
 OMITTED_COMBINATIONS = [('bcr', 'GRCh38', 4), ('bcr', 'GRCh38')] + [(approach, 'GRCh38', 5) for approach in APPROACHES]
+
+# Necessary to create directories because output files of bwt construction are not named in snakemake file.
+for path in [BENCHMARK, SOURCE, SPLIT, INPUT, TEMP, OUTPUT, INDICATORS, RESULT] + [OUTPUT + approach for approach in APPROACHES]:
+    os.makedirs(path, exist_ok=True)
 
 rule target:
     input:
