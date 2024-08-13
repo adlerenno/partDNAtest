@@ -238,7 +238,7 @@ rule egap:
     threads: NUMBER_OF_PROCESSORS
     benchmark: 'bench/{filename}.egap.csv'
     shell:
-        """if {input.script} {input.source} -o {output.destination}; then
+        """if {input.script} {input.source} -o data_bwt/egap/{wildcards.filename}; then
         echo 1 > {output.indicator}
         else
         echo 0 > {output.indicator}
