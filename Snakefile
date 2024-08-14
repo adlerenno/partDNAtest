@@ -183,7 +183,7 @@ rule ropebwt3:
     threads: NUMBER_OF_PROCESSORS
     benchmark: 'bench/{filename}.ropebwt3.csv'
     shell:
-        """if {input.script} -R -t{threads} -do data_bwt/ropebwt3/{wildcards.filename} {input.source}; then
+        """if {input.script} build -R -t{threads} -do data_bwt/ropebwt3/{wildcards.filename} {input.source}; then
         echo 1 > {output.indicator}
         else
         echo 0 > {output.indicator}
