@@ -364,6 +364,7 @@ rule build_grlbwt:
         script2 = 'grlBWT/build/grl2plain',
     shell:
         """
+        rm -rf ./sdsl-lite
         rm -rf ./grlBWT
         git clone https://github.com/simongog/sdsl-lite.git
         cd sdsl-lite
