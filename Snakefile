@@ -219,14 +219,12 @@ rule grlBWT:
         tempdir = 'tmp/'
     threads: NUMBER_OF_PROCESSORS
     benchmark: 'bench/{filename}.grlBWT.csv'
-    shell:
-        """if {input.script} {input.source} -t {threads} -T {params.tempdir}; then
+    shell:  # {input.script2} {input.source}.rl_bwt data_bwt/grlBWT/{wildcards.filename}
+        """if {input.script} {input.source} -t {threads} -T {params.tempdir} -o data_bwt/grlBWT/{wildcards.filename}; then
         echo 1 > {output.indicator}
-        {input.script2} {input.source}.rl_bwt data_bwt/grlBWT/{wildcards.filename}
         rm {input.source}.rl_bwt
         else
         echo 0 > {output.indicator}
-        rm -f {input.source}.rl_bwt
         fi
         """
 
@@ -358,7 +356,7 @@ rule build_bigbwt:
         make
         """
 
-rule build_grlbwt:
+rule build_grlbwt:  # TODO: Avoid recompile of sublibs. test if sublibs already installed.
     output:
         script = 'grlBWT/build/grlbwt-cli',
         script2 = 'grlBWT/build/grl2plain',
