@@ -168,11 +168,11 @@ rule ropebwt2:
     threads: NUMBER_OF_PROCESSORS
     benchmark: 'bench/{filename}.ropebwt2.csv'
     shell:
-        "if {input.script} -R -o data_bwt/ropebwt2/{wildcards.filename} {input.source}; then"
-        "echo 1 > {output.indicator}"
-        "else"
-        "echo 0 > {output.indicator}"
-        "fi"
+        """if {input.script} -R -o data_bwt/ropebwt2/{wildcards.filename} {input.source}; then
+        echo 1 > {output.indicator}
+        else
+        echo 0 > {output.indicator}
+        fi"""
 
 rule ropebwt3:
     input:
