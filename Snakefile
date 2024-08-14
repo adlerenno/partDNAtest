@@ -142,7 +142,8 @@ rule bcr:
         echo 1 > {output.indicator}
         else
         echo 0 > {output.indicator}
-        fi"""
+        fi
+        rm -f cyc.*.txt"""
 
 rule ropebwt:
     input:
@@ -429,6 +430,7 @@ rule build_divsufsort:
         script = 'divsufsort-dna/build/dss'
     shell:
         """
+        rm -rf ./libdivsufsort
         rm -rf ./divsufsort-dna
         git clone https://github.com/y-256/libdivsufsort.git
         cd libdivsufsort
