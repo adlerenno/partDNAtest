@@ -219,10 +219,9 @@ rule grlBWT:
         tempdir = 'tmp/'
     threads: NUMBER_OF_PROCESSORS
     benchmark: 'bench/{filename}.grlBWT.csv'
-    shell:  # {input.script2} {input.source}.rl_bwt data_bwt/grlBWT/{wildcards.filename}
+    shell:  #         rm -f {input.source}.rl_bwt; {input.script2} {input.source}.rl_bwt data_bwt/grlBWT/{wildcards.filename}
         """if {input.script} {input.source} -t {threads} -T {params.tempdir} -o data_bwt/grlBWT/{wildcards.filename}; then
         echo 1 > {output.indicator}
-        rm {input.source}.rl_bwt
         else
         echo 0 > {output.indicator}
         fi
