@@ -542,7 +542,7 @@ rule fetch_ncbi_tuberculosis:  # https://www.ncbi.nlm.nih.gov/assembly/GCF_00019
         cd source
         wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/195/955/GCF_000195955.2_ASM19595v2/GCF_000195955.2_ASM19595v2_genomic.fna.gz
         gzip -d GCF_000195955.2_ASM19595v2_genomic.fna.gz
-        python3 ./../scripts/convert_grc_long.py GCF_000195955.2_ASM19595v2_genomic.fna.gz ASM19595.fa
+        python3 ./../scripts/convert_grc_long.py GCF_000195955.2_ASM19595v2_genomic.fna ASM19595.fa
         """
 
 rule fetch_ncbi_sra:
