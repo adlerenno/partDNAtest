@@ -25,9 +25,14 @@ def parse_filename(filename):
 
 
 def get_success_indicator(approach, filename, r):
-    with open(f'indicators/{filename}_{r}.{approach}', 'r') as f:
-        for line in f:
-            return line[0]
+    if r is 0:
+        with open(f'indicators/{filename}.{approach}', 'r') as f:
+            for line in f:
+                return line[0]
+    else:
+        with open(f'indicators/{filename}_{r}.{approach}', 'r') as f:
+            for line in f:
+                return line[0]
 
 
 def combine(in_dir, out_file):
