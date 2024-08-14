@@ -7,8 +7,8 @@ import os
 
 def parse_filename(filename):
     # Define the regular expression patterns for the two formats
-    pattern1 = re.compile(r'^(?P<filename>[^_]+)_(?P<r>\d+)\.(?P<approach>[^.]+)\.csv$')
-    pattern2 = re.compile(r'^(?P<filename>[^.]+)\.(?P<approach>[^.]+)\.csv$')
+    pattern1 = re.compile(r'^(?P<filename>[^_]+)_split_(?P<r>\d+)\.fa\.(?P<approach>[^.]+)\.csv$')
+    pattern2 = re.compile(r'^(?P<filename>[^.]+)\.fa\.(?P<approach>[^.]+)\.csv$')
 
     match1 = pattern1.match(filename)
     if match1:
