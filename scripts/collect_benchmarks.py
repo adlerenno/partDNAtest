@@ -2,6 +2,7 @@ from os import listdir
 import csv
 import re
 import sys
+import os
 
 
 def parse_filename(filename):
@@ -35,7 +36,7 @@ def combine(in_dir, out_file):
         writer = csv.writer(f, delimiter="\t")
         writer.writerow(['algorithm', 'dataset', 'r', 'successful', 's', 'h:m:s', 'max_rss', 'max_vms', 'max_uss', 'max_pss', 'io_in', 'io_out', 'mean_load', 'cpu_time'])
         for fp in files:
-            with open(fp, 'r') as g:
+            with open(os.path.join(in_dir, fp), 'r') as g:
                 reader = csv.reader(g, delimiter="\t")
                 next(reader)  # Headers line
                 approach, filename, r = parse_filename(fp)
