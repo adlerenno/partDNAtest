@@ -67,7 +67,7 @@ rule get_results:
         stats = 'results/file_stats.csv'
     shell:
         """
-        python3 scripts/collect_benchmark.py bench {output.bench}
+        python3 scripts/collect_benchmarks.py bench {output.bench}
         python3 scripts/get_file_stats.py {output.stats} {input.set}
         """
 
