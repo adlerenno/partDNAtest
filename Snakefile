@@ -138,7 +138,7 @@ rule bcr:
     threads: NUMBER_OF_PROCESSORS
     benchmark: 'bench/{filename}.bcr.csv'
     shell:
-        """if {input.script} {input.source} data_bwt/bcr/{wildcards.filename}; then"
+        """if {input.script} {input.source} data_bwt/bcr/{wildcards.filename}; then
         echo 1 > {output.indicator}
         else
         echo 0 > {output.indicator}
