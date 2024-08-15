@@ -15,12 +15,13 @@ def file_stats(output_file, input_file_list):
             count_g = 0
             count_t = 0
             with open(file, 'r') as f:
+                print(f"Analysing file {file}")
                 for line in f:
                     if line.startswith('>'):
                         sequence_count += 1
                         continue
                     else:
-                        symbol_count += len(line)
+                        symbol_count += len(line) - 1  # Avoid counting newline as well.
                         for char in line:
                             if char == 'A':
                                 count_a += 1

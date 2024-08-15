@@ -43,7 +43,9 @@ DATA_SETS = ['GRCh38', 'GRCm39', 'TAIR10', 'ASM584', 'R64', 'ASM19595']
 R_VALUES = list(range(3, 6))
 # If any combinations of the cartesian product should not be tested (for any reason).
 # Use a three tuple to avoid a specific partitioned file, use a pair to avoid the original file.
-OMITTED_COMBINATIONS = [('bcr', 'GRCh38', 4), ('bcr', 'GRCh38')] + [(approach, 'GRCh38', 5) for approach in APPROACHES]
+OMITTED_COMBINATIONS = [('bcr', 'GRCh38', 4), ('bcr', 'GRCh38', 5), ('bcr', 'GRCh38')]
+# + [(approach, 'GRCh38', 5) for approach in APPROACHES] can avoid a combination for all approaches.
+# The partition of GRCh38 with r=5 will nevertheless be created.
 
 # Necessary to create directories because output files of bwt construction are not named in snakemake file.
 for path in [BENCHMARK, SOURCE, SPLIT, INPUT, TEMP, OUTPUT, INDICATORS, RESULT] + [OUTPUT + approach for approach in APPROACHES]:
