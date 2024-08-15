@@ -9,8 +9,14 @@ def parse_filename(filename):
     # Define the regular expression patterns for the two formats
     # pattern1 = re.compile(r'^(?P<filename>[^_]+)_split_(?P<r>\d+)\.fa\.(?P<approach>[^.]+)\.csv$')
     # pattern2 = re.compile(r'^(?P<filename>[^.]+)\.fa\.(?P<approach>[^.]+)\.csv$')
-    pattern = re.compile(r'^(?P<filename>[a-zA-Z0-9]+)(?:_split_(?P<r>\d+))?\.(?P<extension>fa|fa\.gz|fq|fq\.gz|owpl)\.(?P<approach>[a-zA-Z0-9_]+)\.csv$')
 
+    pattern_partdna = re.compile(r'^(?P<filename>[a-zA-Z0-9]+)\.(?P<extension>fa|fa\.gz|fq|fq\.gz|owpl)_(?P<r>\d+)\.partdna.csv$')
+    match = pattern_partdna.match(filename)
+    if match:
+        return 'partdna', match.group('filename'), match.group('r'), match.group(
+            'extension')  # r is none if not included
+
+    pattern = re.compile(r'^(?P<filename>[a-zA-Z0-9]+)(?:_split_(?P<r>\d+))?\.(?P<extension>fa|fa\.gz|fq|fq\.gz|owpl)\.(?P<approach>[a-zA-Z0-9_]+)\.csv$')
     match = pattern.match(filename)
     if match:
         return match.group('approach'), match.group('filename'), match.group('r'), match.group('extension')  # r is none if not included
@@ -42,7 +48,10 @@ def combine(in_dir, out_file):
                 reader = csv.reader(g, delimiter="\t")
                 next(reader)  # Headers line
                 approach, filename, r, file_extension = parse_filename(fp)
-                success = get_success_indicator(approach, filename, r, file_extension)
+                if approach == 'partdna':
+                    success = 1
+                else:
+                    success = get_success_indicator(approach, filename, r, file_extension)
                 writer.writerow([approach, filename, r, success] + next(reader))
 
 
