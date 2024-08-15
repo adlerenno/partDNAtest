@@ -26,20 +26,20 @@ def parse_filename(filename):
 
 
 def get_success_indicator(approach, filename, r, file_extension):
-    if r is None:
-        with open(f'indicators/{filename}.{file_extension}.{approach}', 'r') as f:
+    if approach == 'partdna':
+        return '1'
+    elif r is None:
+        f_name = f'indicators/{filename}.{file_extension}.{approach}'
+    else:
+        f_name = f'indicators/{filename}_split_{r}.{file_extension}.{approach}'
+    if os.path.isfile(f_name):
+        with open(f_name, 'r') as f:
             for line in f:
                 return line[0]
-        print(f'indicator "indicators/{filename}.{file_extension}.{approach}" missing. I assume failure.')
+    else:
+        print(f'indicator "{f_name}" missing. I assume failure.')
         return '0'
         # raise FileNotFoundError(f'File indicators/{filename}.{file_extension}.{approach} not found.')
-    else:
-        with open(f'indicators/{filename}_split_{r}.{file_extension}.{approach}', 'r') as f:
-            for line in f:
-                return line[0]
-        print(f'indicator "indicators/{filename}_split_{r}.{file_extension}.{approach}" missing. I assume failure.')
-        return '0'
-        # raise FileNotFoundError(f'File indicators/{filename}_split_{r}.{file_extension}.{approach} not found.')
 
 
 def combine(in_dir, out_file):
@@ -52,10 +52,7 @@ def combine(in_dir, out_file):
                 reader = csv.reader(g, delimiter="\t")
                 next(reader)  # Headers line
                 approach, filename, r, file_extension = parse_filename(fp)
-                if approach == 'partdna':
-                    success = 1
-                else:
-                    success = get_success_indicator(approach, filename, r, file_extension)
+                success = get_success_indicator(approach, filename, r, file_extension)
                 writer.writerow([approach, filename, r, success] + next(reader))
 
 
