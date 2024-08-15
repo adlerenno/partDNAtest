@@ -20,7 +20,7 @@ def parse_filename(filename):
 
 
 def get_success_indicator(approach, filename, r, file_extension):
-    if r:
+    if r is None:
         with open(f'indicators/{filename}.{file_extension}.{approach}', 'r') as f:
             for line in f:
                 return line[0]
