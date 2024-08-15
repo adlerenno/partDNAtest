@@ -11,7 +11,7 @@ TEMP = './tmp/'
 OUTPUT = './data_bwt/'
 INDICATORS = './indicators/'
 BENCHMARK = './bench/'
-RESULT = './result/'
+RESULT = './results/'
 
 APPROACHES = [
     'bcr',
