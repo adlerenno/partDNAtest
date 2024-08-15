@@ -30,12 +30,16 @@ def get_success_indicator(approach, filename, r, file_extension):
         with open(f'indicators/{filename}.{file_extension}.{approach}', 'r') as f:
             for line in f:
                 return line[0]
-        raise FileNotFoundError(f'File indicators/{filename}.{file_extension}.{approach} not found.')
+        print(f'indicator "indicators/{filename}.{file_extension}.{approach}" missing. I assume failure.')
+        return '0'
+        # raise FileNotFoundError(f'File indicators/{filename}.{file_extension}.{approach} not found.')
     else:
         with open(f'indicators/{filename}_split_{r}.{file_extension}.{approach}', 'r') as f:
             for line in f:
                 return line[0]
-        raise FileNotFoundError(f'File indicators/{filename}_split_{r}.{file_extension}.{approach} not found.')
+        print(f'indicator "indicators/{filename}_split_{r}.{file_extension}.{approach}" missing. I assume failure.')
+        return '0'
+        # raise FileNotFoundError(f'File indicators/{filename}_split_{r}.{file_extension}.{approach} not found.')
 
 
 def combine(in_dir, out_file):
