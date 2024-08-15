@@ -7,30 +7,25 @@ import os
 
 def parse_filename(filename):
     # Define the regular expression patterns for the two formats
-    pattern1 = re.compile(r'^(?P<filename>[^_]+)_split_(?P<r>\d+)\.fa\.(?P<approach>[^.]+)\.csv$')
-    pattern2 = re.compile(r'^(?P<filename>[^.]+)\.fa\.(?P<approach>[^.]+)\.csv$')
+    # pattern1 = re.compile(r'^(?P<filename>[^_]+)_split_(?P<r>\d+)\.fa\.(?P<approach>[^.]+)\.csv$')
+    # pattern2 = re.compile(r'^(?P<filename>[^.]+)\.fa\.(?P<approach>[^.]+)\.csv$')
+    pattern = re.compile(r'^(?P<filename>[a-zA-Z0-9]+)(?:_split_(?P<r>\d+))?\.(?P<extension>fa|fa\.gz|fq|fq\.gz|owpl)\.(?P<approach>[a-zA-Z0-9_]+)\.csv$')
 
-    match1 = pattern1.match(filename)
-    if match1:
-        return match1.group('approach'), match1.group('filename'), '0'  # Default value when r is not provided
-
-
-    match2 = pattern2.match(filename)
-    if match2:
-        return match2.group('approach'), match2.group('filename'), match2.group('r')
-
+    match = pattern.match(filename)
+    if match:
+        return match.group('approach'), match.group('filename'), match.group('r'), match.group('extension')  # r is none if not included
 
     # If neither pattern matches, raise an error
     raise ValueError(f"Filename '{filename}' does not match expected patterns")
 
 
-def get_success_indicator(approach, filename, r):
-    if r is 0:
-        with open(f'indicators/{filename}.{approach}', 'r') as f:
+def get_success_indicator(approach, filename, r, file_extension):
+    if r:
+        with open(f'indicators/{filename}.{file_extension}.{approach}', 'r') as f:
             for line in f:
                 return line[0]
     else:
-        with open(f'indicators/{filename}_{r}.{approach}', 'r') as f:
+        with open(f'indicators/{filename}_split_{r}.{file_extension}.{approach}', 'r') as f:
             for line in f:
                 return line[0]
 
@@ -44,8 +39,8 @@ def combine(in_dir, out_file):
             with open(os.path.join(in_dir, fp), 'r') as g:
                 reader = csv.reader(g, delimiter="\t")
                 next(reader)  # Headers line
-                approach, filename, r = parse_filename(fp)
-                success = get_success_indicator(approach, filename, r)
+                approach, filename, r, file_extension = parse_filename(fp)
+                success = get_success_indicator(approach, filename, r, file_extension)
                 writer.writerow([approach, filename, r, success] + next(reader))
 
 
