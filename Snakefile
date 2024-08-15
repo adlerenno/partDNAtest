@@ -63,13 +63,22 @@ rule get_results:
          if (approach, file, r) not in OMITTED_COMBINATIONS
          ]
     output:
-        bench = 'results/benchmark.csv',
-        stats = 'results/file_stats.csv'
+        bench = 'results/benchmark.csv'
     shell:
         """
         python3 scripts/collect_benchmarks.py bench {output.bench}
+        """
+
+rule stats:
+    input:
+        set = [f'split/{filename}_split_{r}.fa' for filename in DATA_SETS for r in R_VALUES] + [f'split/{filename}.fa' for filename in DATA_SETS]
+    output:
+        stats = 'results/file_stats.csv'
+    shell:
+        """
         python3 scripts/get_file_stats.py {output.stats} {input.set}
         """
+
 
 rule clean:  # TODO: Clear installations and build repositories.
     shell:
