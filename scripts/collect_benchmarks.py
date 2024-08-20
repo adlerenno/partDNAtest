@@ -10,7 +10,7 @@ def parse_filename(filename):
     # pattern1 = re.compile(r'^(?P<filename>[^_]+)_split_(?P<r>\d+)\.fa\.(?P<approach>[^.]+)\.csv$')
     # pattern2 = re.compile(r'^(?P<filename>[^.]+)\.fa\.(?P<approach>[^.]+)\.csv$')
 
-    pattern_partdna = re.compile(r'^(?P<filename>[a-zA-Z0-9]+)\.(?P<extension>fa|fa\.gz|fq|fq\.gz|owpl)_(?P<r>\d+)\.partdna.csv$')
+    pattern_partdna = re.compile(r'^(?P<filename>[a-zA-Z0-9]+)\.(?P<extension>fa|fa\.gz|fq|fq\.gz|owpl)_(?P<r>\d+)\.partdna\.csv$')
     match = pattern_partdna.match(filename)
     if match:
         return 'partdna', match.group('filename'), match.group('r'), match.group(
