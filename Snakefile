@@ -39,7 +39,7 @@ DATA_TYPE = {
     'gsufsort': 'fq.gz',
     'divsufsort': 'fa',
 }
-DATA_SETS = ['GRCh38', 'GRCm39', 'TAIR10', 'ASM584', 'R64', 'ASM19595']
+DATA_SETS = ['GRCh38', 'GRCm39', 'TAIR10', 'ASM584', 'R64', 'ASM19595', 'JAGHKL01']
 R_VALUES = list(range(3, 6))
 # If any combinations of the cartesian product should not be tested (for any reason).
 # Use a three tuple to avoid a specific partitioned file, use a pair to avoid the original file.
@@ -558,6 +558,17 @@ rule fetch_ncbi_tuberculosis:  # https://www.ncbi.nlm.nih.gov/assembly/GCF_00019
         wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/195/955/GCF_000195955.2_ASM19595v2/GCF_000195955.2_ASM19595v2_genomic.fna.gz
         gzip -d GCF_000195955.2_ASM19595v2_genomic.fna.gz
         python3 ./../scripts/convert_grc_long.py GCF_000195955.2_ASM19595v2_genomic.fna ASM19595.fa
+        """
+
+rule fetch_ncbi_triticum_aestivum:  # https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_018294505.1/
+    output:
+        'source/JAGHKL01.fa'
+    shell:
+        """
+        cd source
+        wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/018/294/505/GCF_018294505.1_IWGSC_CS_RefSeq_v2.1/GCF_018294505.1_IWGSC_CS_RefSeq_v2.1_genomic.fna.gz
+        gzip -d GCF_018294505.1_IWGSC_CS_RefSeq_v2.1_genomic.fna.gz
+        python3 ./../scripts/convert_grc_long.py GCF_018294505.1_IWGSC_CS_RefSeq_v2.1_genomic.fna JAGHKL01.fa
         """
 
 rule fetch_ncbi_sra:

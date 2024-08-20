@@ -9,7 +9,6 @@ def file_stats(output_file, input_file_list):
         writer.writerow(['dataset', 'sequence_count', 'symbol_count', 'A', 'C', 'G', 'T'])
         for file in input_file_list:
             sequence_count = 0
-            symbol_count = 0
             count_a = 0
             count_c = 0
             count_g = 0
@@ -21,7 +20,6 @@ def file_stats(output_file, input_file_list):
                         sequence_count += 1
                         continue
                     else:
-                        symbol_count += len(line) - 1  # Avoid counting newline as well.
                         for char in line:
                             if char == 'A':
                                 count_a += 1
@@ -31,7 +29,7 @@ def file_stats(output_file, input_file_list):
                                 count_g += 1
                             elif char == 'T':
                                 count_t += 1
-                writer.writerow([file, sequence_count, symbol_count, count_a, count_c, count_g, count_t])
+                writer.writerow([file, sequence_count, count_a + count_c + count_g + count_t, count_a, count_c, count_g, count_t])
 
 
 if __name__ == '__main__':

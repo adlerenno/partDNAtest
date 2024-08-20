@@ -20,7 +20,7 @@ You can run all tests with:
 ```bash
 git clone https://github.com/adlerenno/partDNAtest
 cd partDNAtest
-sudo Snakemake --cores 1 --keep-going
+sudo Snakemake -p --cores 1
 ```
 
 To clean up, run 
@@ -29,7 +29,7 @@ To clean up, run
 sudo Snakemake clean --cores 1
 ```
 
-You need to have at least 400GB disk space and more than 48h  to run all experiments.
+You need to have at least 250GB disk space and about 19h  to run all experiments.
 If you want to perform fewer experiments, comment out either APPROACHES, DATA_SETS or adjust the R_VALUES. 
 If you want to add additional datasets, you need to add a rule to download that file into the source directory.
 If you want to add a datasets from [NCBI](https://www.ncbi.nlm.nih.gov/datasets/genome/), you can copy for example the fetch_ncbi_human_GRCh38 rule and adjust it.
