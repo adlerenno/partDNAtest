@@ -215,9 +215,13 @@ rule bigBWT:
     benchmark: 'bench/{filename}.bigBWT.csv'
     shell:
         """if {input.script} {input.source} -t {threads}; then
-        echo 1 > {output.indicator}
-        mv {input.source}.log data_bwt/bigBWT/{wildcards.filename}.log
-        mv {input.source}.bwt data_bwt/bigBWT/{wildcards.filename}.bwt
+            mv {input.source}.log data_bwt/bigBWT/{wildcards.filename}.log
+            if mv {input.source}.bwt data_bwt/bigBWT/{wildcards.filename}.bwt; then
+            echo 1 > {output.indicator}
+            else
+            echo 0 > {output.indicator}
+            rm -f {input.source}.log {input.source}.bwt
+            fi
         else
         echo 0 > {output.indicator}
         rm -f {input.source}.log {input.source}.bwt
