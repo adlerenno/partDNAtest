@@ -150,7 +150,8 @@ rule bcr:
         source = 'data/{filename}'
     output:
         indicator = 'indicators/{filename}.bcr'
-    threads: NUMBER_OF_PROCESSORS
+    params:
+        threads = NUMBER_OF_PROCESSORS
     benchmark: 'bench/{filename}.bcr.csv'
     shell:
         """if {input.script} {input.source} data_bwt/bcr/{wildcards.filename}; then
@@ -166,7 +167,8 @@ rule ropebwt:
         source = 'data/{filename}'
     output:
         indicator = 'indicators/{filename}.ropebwt'
-    threads: NUMBER_OF_PROCESSORS
+    params:
+        threads = NUMBER_OF_PROCESSORS
     benchmark: 'bench/{filename}.ropebwt.csv'
     shell:
         """if {input.script} -t -R -o data_bwt/ropebwt/{wildcards.filename} {input.source}; then
@@ -181,7 +183,8 @@ rule ropebwt2:
         source = 'data/{filename}'
     output:
         indicator = 'indicators/{filename}.ropebwt2'
-    threads: NUMBER_OF_PROCESSORS
+    params:
+        threads = NUMBER_OF_PROCESSORS
     benchmark: 'bench/{filename}.ropebwt2.csv'
     shell:
         """if {input.script} -R -o data_bwt/ropebwt2/{wildcards.filename} {input.source}; then
@@ -196,10 +199,11 @@ rule ropebwt3:
         source = 'data/{filename}'
     output:
         indicator = 'indicators/{filename}.ropebwt3'
-    threads: NUMBER_OF_PROCESSORS
+    params:
+        threads = NUMBER_OF_PROCESSORS
     benchmark: 'bench/{filename}.ropebwt3.csv'
     shell:
-        """if {input.script} build -R -t{threads} -do data_bwt/ropebwt3/{wildcards.filename} {input.source}; then
+        """if {input.script} build -R -t{params.threads} -do data_bwt/ropebwt3/{wildcards.filename} {input.source}; then
         echo 1 > {output.indicator}
         else
         echo 0 > {output.indicator}
@@ -211,10 +215,11 @@ rule bigBWT:
         source = 'data/{filename}'
     output:
         indicator = 'indicators/{filename}.bigBWT'
-    threads: NUMBER_OF_PROCESSORS
+    params:
+        threads = NUMBER_OF_PROCESSORS
     benchmark: 'bench/{filename}.bigBWT.csv'
     shell:
-        """if {input.script} {input.source} -t {threads}; then
+        """if {input.script} {input.source} -t {params.threads}; then
             mv {input.source}.log data_bwt/bigBWT/{wildcards.filename}.log
             if mv {input.source}.bwt data_bwt/bigBWT/{wildcards.filename}.bwt; then
             echo 1 > {output.indicator}
@@ -235,11 +240,11 @@ rule grlBWT:
     output:
         indicator = 'indicators/{filename}.grlBWT'
     params:
-        tempdir = 'tmp/'
-    threads: NUMBER_OF_PROCESSORS
+        tempdir = 'tmp/',
+        threads = NUMBER_OF_PROCESSORS
     benchmark: 'bench/{filename}.grlBWT.csv'
     shell:  #         rm -f {input.source}.rl_bwt; {input.script2} {input.source}.rl_bwt data_bwt/grlBWT/{wildcards.filename}
-        """if {input.script} {input.source} -t {threads} -T {params.tempdir} -o data_bwt/grlBWT/{wildcards.filename}; then
+        """if {input.script} {input.source} -t {params.threads} -T {params.tempdir} -o data_bwt/grlBWT/{wildcards.filename}; then
         echo 1 > {output.indicator}
         else
         echo 0 > {output.indicator}
@@ -252,7 +257,8 @@ rule egap:
         source = 'data/{filename}'
     output:
         indicator = 'indicators/{filename}.egap'
-    threads: NUMBER_OF_PROCESSORS
+    params:
+        threads = NUMBER_OF_PROCESSORS
     benchmark: 'bench/{filename}.egap.csv'
     shell:
         """if {input.script} {input.source} -o data_bwt/egap/{wildcards.filename}; then
@@ -267,7 +273,8 @@ rule gsufsort:
         source = 'data/{filename}'
     output:
         indicator = 'indicators/{filename}.gsufsort'
-    threads: NUMBER_OF_PROCESSORS
+    params:
+        threads = NUMBER_OF_PROCESSORS
     benchmark: 'bench/{filename}.gsufsort.csv'
     shell:
         """if {input.script} {input.source} --upper --bwt --output data_bwt/gsufsort/{wildcards.filename}; then
@@ -288,12 +295,12 @@ rule r_pfbwt:
         p1 = 100,
         w2 = 5,
         p2 = 11,
-        tempdir = 'tmp/'
-    threads: NUMBER_OF_PROCESSORS
+        tempdir = 'tmp/',
+        threads = NUMBER_OF_PROCESSORS
     benchmark: 'bench/{filename}.r_pfbwt.csv'
     shell:
         """
-        if ./{input.script2} -f {input.source} -w {params.w1} -p {params.p1} --output-occurrences --threads {threads} && ./{input.script2} -i {input.source}.parse -w {params.w2} -p {params.p2} --threads {threads} && ./{input.script} --l1-prefix {input.source} --w1 {params.w1} --w2 {params.w2} --threads {threads} --tmp-dir {params.tempdir} --bwt-only; then
+        if ./{input.script2} -f {input.source} -w {params.w1} -p {params.p1} --output-occurrences --threads {params.threads} && ./{input.script2} -i {input.source}.parse -w {params.w2} -p {params.p2} --threads {params.threads} && ./{input.script} --l1-prefix {input.source} --w1 {params.w1} --w2 {params.w2} --threads {params.threads} --tmp-dir {params.tempdir} --bwt-only; then
         echo 1 > {output.indicator}
         mv {input.source}.rlebwt data_bwt/r_pfbwt/{wildcards.filename} 
         mv {input.source}.rlebwt.meta data_bwt/r_pfbwt/{wildcards.filename}.meta
@@ -309,7 +316,8 @@ rule divsufsort:
         source = 'data/{filename}'
     output:
         indicator = 'indicators/{filename}.divsufsort'
-    threads: NUMBER_OF_PROCESSORS
+    params:
+        threads = NUMBER_OF_PROCESSORS
     benchmark: 'bench/{filename}.divsufsort.csv'
     shell:
         """if {input.script} -i {input.source} -o data_bwt/divsufsort/{wildcards.filename}; then 
