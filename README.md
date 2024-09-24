@@ -8,7 +8,7 @@ The order of steps might differ due to the interna of snakemake.
 
 Be aware that you might type your password or agree to an installation at any time during the process. 
 This should not happen during BWT construction processes which are benchmarked.
-To achive best results for you testing machine, adjust the following values in `Snakefile' to your local ressources.
+To achieve the best results for your testing machine, adjust the following values in `Snakefile' to your local ressources.
 
 ```
 MAX_MAIN_MEMORY = 128
@@ -29,7 +29,7 @@ To clean up, run
 sudo Snakemake clean --cores 1
 ```
 
-You need to have at least 250GB disk space and about 19h  to run all experiments.
-If you want to perform fewer experiments, comment out either APPROACHES, DATA_SETS or adjust the R_VALUES. 
+You need to have at least 250GB disk space and about 19h to run all experiments.
+If you want to perform fewer experiments, cancel out either APPROACHES, DATA_SETS or adjust the R_VALUES. 
 If you want to add additional datasets, you need to add a rule to download that file into the source directory.
-If you want to add a datasets from [NCBI](https://www.ncbi.nlm.nih.gov/datasets/genome/), you can copy for example the fetch_ncbi_human_GRCh38 rule and adjust it.
+If you want to add a datasets from [NCBI](https://www.ncbi.nlm.nih.gov/datasets/genome/), you can copy, for example, the fetch_ncbi_human_GRCh38 rule and adjust it.
