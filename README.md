@@ -8,7 +8,8 @@ The order of steps might differ due to the interna of snakemake.
 
 Be aware that you might type your password or agree to an installation at any time during the process. 
 This should not happen during BWT construction processes which are benchmarked.
-To achieve the best results for your testing machine, adjust the following values in `Snakefile' to your local ressources.
+To achieve the best results for your testing machine,
+adjust the following values in `Snakefile' to your local resources.
 
 ```
 MAX_MAIN_MEMORY = 128
