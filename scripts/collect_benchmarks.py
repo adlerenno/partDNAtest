@@ -3,6 +3,7 @@ import csv
 import re
 import sys
 import os
+from os.path import isfile
 
 
 def parse_filename(filename):
@@ -25,36 +26,49 @@ def parse_filename(filename):
     raise ValueError(f"Filename '{filename}' does not match expected patterns")
 
 
-def get_success_indicator(approach, filename, r, file_extension):
-    if approach == 'partdna':
+def get_success_indicator(filename):
+    if 'partdna' in filename:
         return '1'
-    elif r is None:
-        f_name = f'indicators/{filename}.{file_extension}.{approach}'
-    else:
-        f_name = f'indicators/{filename}_split_{r}.{file_extension}.{approach}'
-    if os.path.isfile(f_name):
-        with open(f_name, 'r') as f:
+    if os.path.isfile(filename):
+        with open(filename, 'r') as f:
             for line in f:
                 return line[0]
     else:
-        print(f'indicator "{f_name}" missing. I assume failure.')
+        print(f'indicator "{filename}" is missing. I assume failure.')
         return '0'
         # raise FileNotFoundError(f'File indicators/{filename}.{file_extension}.{approach} not found.')
 
 
-def combine(in_dir, out_file):
-    files = listdir(in_dir)
+def combine(data_sets, approaches, r_values, DATA_TYPE, out_file):
     with open(out_file, "w") as f:
         writer = csv.writer(f, delimiter="\t")
         writer.writerow(['algorithm', 'dataset', 'r', 'successful', 's', 'h:m:s', 'max_rss', 'max_vms', 'max_uss', 'max_pss', 'io_in', 'io_out', 'mean_load', 'cpu_time'])
-        for fp in files:
-            with open(os.path.join(in_dir, fp), 'r') as g:
-                reader = csv.reader(g, delimiter="\t")
-                next(reader)  # Headers line
-                approach, filename, r, file_extension = parse_filename(fp)
-                success = get_success_indicator(approach, filename, r, file_extension)
-                writer.writerow([approach, filename, r, success] + next(reader))
+        for data_set in data_sets:
+            for r in r_values:
+                bench = f'bench/{data_set}.{DATA_TYPE[approach]}_{r}.partdna.csv'
+                with open(bench, 'r') as g:
+                    reader = csv.reader(g, delimiter="\t")
+                    next(reader)  # Headers line
+                    writer.writerow([approach, data_set, r, '1'] + next(reader))
 
-
-if __name__ == '__main__':
-    combine(sys.argv[1], sys.argv[2])
+                for approach in approaches:
+                    bench = f'bench/{data_set}_split_{r}.{DATA_TYPE[approach]}.{approach}.csv'
+                    indicator = f'indicators/{data_set}_split_{r}.{DATA_TYPE[approach]}.{approach}'
+                    if not isfile(bench):
+                        continue
+                    with open(bench, 'r') as g:
+                        reader = csv.reader(g, delimiter="\t")
+                        next(reader)  # Headers line
+                        success = get_success_indicator(indicator)
+                        writer.writerow([approach, data_set, r, success] + next(reader))
+        for data_set in data_sets:
+            for approach in approaches:
+                bench = f'bench/{data_set}.{DATA_TYPE[approach]}.{approach}.csv'
+                indicator = f'indicators/{data_set}.{DATA_TYPE[approach]}.{approach}'
+                if not isfile(bench):
+                    continue
+                with open(bench, 'r') as g:
+                    reader = csv.reader(g, delimiter="\t")
+                    next(reader)  # Headers line
+                    success = get_success_indicator(indicator)
+                    writer.writerow([approach, data_set, r, success] + next(reader))

@@ -1,4 +1,5 @@
 import os
+from itertools import chain
 
 MAX_MAIN_MEMORY = 128
 NUMBER_OF_PROCESSORS = 32
@@ -15,10 +16,7 @@ BENCHMARK = './bench/'
 RESULT = './results/'
 
 # Adjust tested settings here. Make sure if you add something, that you add a corresponding rule to provide the file or the approach
-APPROACHES = [
-    'bcr',
-    'ropebwt',
-    'ropebwt2',
+APPROACHES_SINGLE = [
     'ropebwt3',
     'bigBWT',
     'r_pfbwt',
@@ -26,6 +24,11 @@ APPROACHES = [
     'egap',
     'gsufsort',
     'divsufsort',
+]
+APPROACHES_MULTI = [
+    'bcr',
+    'ropebwt',
+    'ropebwt2'
 ]
 DATA_TYPE = {
     'bcr': 'fq.gz',
@@ -39,16 +42,23 @@ DATA_TYPE = {
     'gsufsort': 'fq.gz',
     'divsufsort': 'fa',
 }
-DATA_SETS = ['GRCh38', 'GRCm39', 'TAIR10', 'ASM584', 'R64', 'ASM19595', 'JAGHKL01']
+DATA_SETS = ['GRCh38',
+             'GRCm39',
+             #'TAIR10', 'ASM584', 'R64', 'ASM19595',
+             'JAGHKL01']
 R_VALUES = list(range(3, 6))
-# If any combinations of the cartesian product should not be tested (for any reason).
-# Use a three tuple to avoid a specific partitioned file, use a pair to avoid the original file.
-OMITTED_COMBINATIONS = [('bcr', 'GRCh38', 4), ('bcr', 'GRCh38', 5), ('bcr', 'GRCh38')]
-# + [(approach, 'GRCh38', 5) for approach in APPROACHES] can avoid a combination for all approaches.
-# The partition of GRCh38 with r=5 will nevertheless be created.
+
+FILES = [f'indicators/{file}.{DATA_TYPE[approach]}.{approach}'
+         for approach in APPROACHES_SINGLE
+         for file in DATA_SETS
+         ] + [f'indicators/{file}_split_{r}.{DATA_TYPE[approach]}.{approach}'
+              for approach in APPROACHES_MULTI
+              for file in DATA_SETS
+              for r in R_VALUES
+              ]
 
 # Necessary to create directories because output files of bwt construction are not named in snakemake file.
-for path in [BENCHMARK, SOURCE, SPLIT, INPUT, TEMP, OUTPUT, INDICATORS, RESULT] + [OUTPUT + approach for approach in APPROACHES]:
+for path in [BENCHMARK, SOURCE, SPLIT, INPUT, TEMP, OUTPUT, INDICATORS, RESULT] + [OUTPUT + approach for approach in APPROACHES_SINGLE]:
     os.makedirs(path, exist_ok=True)
 
 rule target:
@@ -58,22 +68,15 @@ rule target:
 
 rule get_results:
     input:
-        set = [f'indicators/{file}.{DATA_TYPE[approach]}.{approach}'
-         for approach in APPROACHES
-         for file in DATA_SETS
-         if (approach, file) not in OMITTED_COMBINATIONS
-         ] + [f'indicators/{file}_split_{r}.{DATA_TYPE[approach]}.{approach}'
-         for approach in APPROACHES
-         for file in DATA_SETS
-         for r in R_VALUES
-         if (approach, file, r) not in OMITTED_COMBINATIONS
-         ]
+        set = FILES
     output:
         bench = 'results/benchmark.csv'
-    shell:
+    run:
         """
         python3 scripts/collect_benchmarks.py bench {output.bench}
         """
+        from scripts.collect_benchmarks import combine
+        combine(DATA_SETS, APPROACHES_SINGLE, R_VALUES, DATA_TYPE, output.bench)
 
 rule stats:
     input:
