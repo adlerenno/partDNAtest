@@ -58,7 +58,7 @@ FILES = [f'indicators/{file}.{DATA_TYPE[approach]}.{approach}'
               ]
 
 # Necessary to create directories because output files of bwt construction are not named in snakemake file.
-for path in [BENCHMARK, SOURCE, SPLIT, INPUT, TEMP, OUTPUT, INDICATORS, RESULT] + [OUTPUT + approach for approach in APPROACHES_SINGLE]:
+for path in [BENCHMARK, SOURCE, SPLIT, INPUT, TEMP, OUTPUT, INDICATORS, RESULT] + [OUTPUT + approach for approach in APPROACHES_SINGLE + APPROACHES_MULTI]:
     os.makedirs(path, exist_ok=True)
 
 rule target:
