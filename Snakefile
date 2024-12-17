@@ -333,7 +333,7 @@ rule divsufsort:
 
 rule ibb:
     input:
-        script = 'IBB/build/IBB-cli',
+        script = 'ibb/build/IBB-cli',
         source = 'data/{filename}'
     output:
         indicator = 'indicators/{filename}.IBB'
@@ -497,7 +497,7 @@ rule build_divsufsort:
 
 rule build_IBB:
     output:
-        script = 'IBB/build/IBB-cli'
+        script = 'ibb/build/IBB-cli'
     shell:
         """
         git clone https://github.com/adlerenno/ibb

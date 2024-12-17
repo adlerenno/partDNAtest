@@ -74,6 +74,8 @@ If you want to do so, you need to do this manually.
 | grlBWT     | https://github.com/ddiazdom/grlBWT            |
 | eGap       | https://github.com/felipelouza/egap           |
 | gsufsort   | https://github.com/felipelouza/gsufsort       |
+| IBB        | https://github.com/adlerenno/ibb              |
+
 
 
 
@@ -84,3 +86,7 @@ If you want to do so, you need to do this manually.
 | GRCm39   | https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_000001635.27/ |
 | GRCh38   | https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_000001405.40/ |
 | JAGHKL01 | https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_018294505.1/  |
+| R64      | https://www.ncbi.nlm.nih.gov/assembly/GCF_000146045.2/         |
+| ASM584   | https://www.ncbi.nlm.nih.gov/nuccore/U00096.3                  |
+| TIAR10   | https://www.ncbi.nlm.nih.gov/assembly/GCF_000001735.4/         |
+| ASM19595 | https://www.ncbi.nlm.nih.gov/assembly/GCF_000195955.2/         |
