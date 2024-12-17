@@ -501,6 +501,7 @@ rule build_IBB:
         script = 'ibb/build/IBB-cli'
     shell:
         """
+        rm -rf ./ibb
         git clone https://github.com/adlerenno/ibb
         cd ibb
         mkdir -p build
