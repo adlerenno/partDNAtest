@@ -343,7 +343,7 @@ rule ibb:
         tempdir = 'tmp/'
     benchmark: 'bench/{filename}.IBB.csv'
     shell:
-        """if {input.script} -i {input.source} -o data_bwt/ibb/{wildcards.filename} -t {params.tempdir} -k {params.k} -p {params.threads}; then 
+        """if {input.script} -i {input.source} -o data_bwt/IBB/{wildcards.filename} -t {params.tempdir} -k {params.k} -p {params.threads}; then 
         echo 1 > {output.indicator}
         else
         echo 0 > {output.indicator}
