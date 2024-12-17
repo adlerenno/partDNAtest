@@ -339,10 +339,11 @@ rule ibb:
         indicator = 'indicators/{filename}.IBB'
     params:
         threads = NUMBER_OF_PROCESSORS,
-        k = 5
+        k = 5,
+        tempdir = 'tmp/'
     benchmark: 'bench/{filename}.IBB.csv'
     shell:
-        """if {input.script} -i {input.source} -o data_bwt/ibb/{wildcards.filename} -k {params.k}; then 
+        """if {input.script} -i {input.source} -o data_bwt/ibb/{wildcards.filename} -t {params.tempdir} -k {params.k} -p {params.threads}; then 
         echo 1 > {output.indicator}
         else
         echo 0 > {output.indicator}
