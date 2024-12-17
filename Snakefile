@@ -28,7 +28,8 @@ APPROACHES_SINGLE = [
 APPROACHES_MULTI = [
     'bcr',
     'ropebwt',
-    'ropebwt2'
+    'ropebwt2',
+    'IBB'
 ]
 DATA_TYPE = {
     'bcr': 'fq.gz',
@@ -41,10 +42,11 @@ DATA_TYPE = {
     'egap': 'fa',
     'gsufsort': 'fq.gz',
     'divsufsort': 'fa',
+    'IBB': 'fa'
 }
 DATA_SETS = ['GRCh38',
              'GRCm39',
-             #'TAIR10', 'ASM584', 'R64', 'ASM19595',
+             'TAIR10', 'ASM584', 'R64', 'ASM19595',
              'JAGHKL01']
 R_VALUES = list(range(3, 6))
 
@@ -329,6 +331,23 @@ rule divsufsort:
         echo 0 > {output.indicator}
         fi"""
 
+rule ibb:
+    input:
+        script = 'IBB/build/IBB-cli',
+        source = 'data/{filename}'
+    output:
+        indicator = 'indicators/{filename}.IBB'
+    params:
+        threads = NUMBER_OF_PROCESSORS,
+        k = 5
+    benchmark: 'bench/{filename}.IBB.csv'
+    shell:
+        """if {input.script} -i {input.source} -o data_bwt/ibb/{wildcards.filename} -k {params.k}; then 
+        echo 1 > {output.indicator}
+        else
+        echo 0 > {output.indicator}
+        fi"""
+
 rule build_bcr:
     output:
         script = 'BCR_LCP_GSA/BCR_LCP_GSA'
@@ -475,6 +494,19 @@ rule build_divsufsort:
         cmake ..
         make
 """
+
+rule build_IBB:
+    output:
+        script = 'IBB/build/IBB-cli'
+    shell:
+        """
+        git clone https://github.com/adlerenno/ibb
+        cd ibb
+        mkdir -p build
+        cd build
+        cmake -DPOP_COUNT=AVX512 ..
+        make
+        """
 
 rule build_part_dna:
     output:
