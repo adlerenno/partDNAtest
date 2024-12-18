@@ -47,7 +47,7 @@ def combine(data_sets, approaches, r_values, DATA_TYPE, out_file):
                 with open(bench, 'r') as g:
                     reader = csv.reader(g, delimiter="\t")
                     next(reader)  # Headers line
-                    writer.writerow([approach, data_set, r, '1'] + next(reader))
+                    writer.writerow(['partDNA', data_set, r, '1'] + next(reader))
 
                 for approach in approaches:
                     bench = f'bench/{data_set}_split_{r}.{DATA_TYPE[approach]}.{approach}.csv'
