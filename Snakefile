@@ -29,7 +29,7 @@ APPROACHES_MULTI = [
     'bcr',
     'ropebwt',
     'ropebwt2',
-    'IBB'
+    'ibb'
 ]
 DATA_TYPE = {
     'bcr': 'fq.gz',
@@ -42,7 +42,8 @@ DATA_TYPE = {
     'egap': 'fa',
     'gsufsort': 'fq.gz',
     'divsufsort': 'fa',
-    'IBB': 'fa'
+    'ibb': 'fa',
+    'partdna': 'fa'
 }
 DATA_SETS = ['GRCh38',
              'GRCm39',
@@ -336,14 +337,14 @@ rule ibb:
         script = 'ibb/build/IBB-cli',
         source = 'data/{filename}'
     output:
-        indicator = 'indicators/{filename}.IBB'
+        indicator = 'indicators/{filename}.ibb'
     params:
         threads = NUMBER_OF_PROCESSORS,
         k = 5,
         tempdir = 'tmp/'
-    benchmark: 'bench/{filename}.IBB.csv'
+    benchmark: 'bench/{filename}.ibb.csv'
     shell:
-        """if {input.script} -i {input.source} -o data_bwt/IBB/{wildcards.filename} -t {params.tempdir} -k {params.k} -p {params.threads}; then 
+        """if {input.script} -i {input.source} -o data_bwt/ibb/{wildcards.filename} -t {params.tempdir} -k {params.k} -p {params.threads}; then 
         echo 1 > {output.indicator}
         else
         echo 0 > {output.indicator}
@@ -496,7 +497,7 @@ rule build_divsufsort:
         make
 """
 
-rule build_IBB:
+rule build_ibb:
     output:
         script = 'ibb/build/IBB-cli'
     shell:
