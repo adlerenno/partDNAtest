@@ -37,6 +37,15 @@ MAX_MAIN_MEMORY = 128
 NUMBER_OF_PROCESSORS = 32
 ```
 
+If you want to perform the test in a way that external memory approaches use ramdisks, first run the tmp_ramdisk.sh file.
+Note that it was designed to run on Linux. It will remove the current /tmp folder, create a new one and mount it to the RAM.
+The maximal capacity is 50% of the available RAM, but it uses it only dynamically.
+
+```bash
+chmod +x tmp_ramdisk.sh
+./tmp_ramdisk.sh
+```
+
 Note that we install the necessary libraries regardless if there is a preexisting installation,
 because the installations might be at different locations on different platforms.
 
@@ -57,7 +66,8 @@ sudo Snakemake clean --cores 1
 ```
 
 Note that this will neither delete the cloned GitHub projects of the tested approaches nor uninstall any installed library.
-If you want to do so, you need to do this manually.
+There is no update on installed projects, if they are updated, you need to do this on your own.
+If you want to do remove installed projects, you need to do this manually.
 
 ## Tested approaches
 
