@@ -79,7 +79,7 @@ rule get_results:
         python3 scripts/collect_benchmarks.py bench {output.bench}
         """
         from scripts.collect_benchmarks import combine
-        combine(DATA_SETS, APPROACHES_SINGLE + APPROACHES_MULTI, R_VALUES, DATA_TYPE, output.bench)
+        combine(DATA_SETS, APPROACHES_SINGLE, APPROACHES_MULTI, R_VALUES, DATA_TYPE, output.bench)
 
 rule stats:
     input:

@@ -37,7 +37,7 @@ def get_success_indicator(filename):
         # raise FileNotFoundError(f'File indicators/{filename}.{file_extension}.{approach} not found.')
 
 
-def combine(data_sets, approaches, r_values, DATA_TYPE, out_file):
+def combine(data_sets, approaches_single, approaches_multi, r_values, DATA_TYPE, out_file):
     with open(out_file, "w") as f:
         writer = csv.writer(f, delimiter="\t")
         writer.writerow(['algorithm', 'dataset', 'r', 'successful', 's', 'h:m:s', 'max_rss', 'max_vms', 'max_uss', 'max_pss', 'io_in', 'io_out', 'mean_load', 'cpu_time'])
@@ -49,7 +49,7 @@ def combine(data_sets, approaches, r_values, DATA_TYPE, out_file):
                     next(reader)  # Headers line
                     writer.writerow(['partDNA', data_set, r, '1'] + next(reader))
 
-                for approach in approaches:
+                for approach in approaches_multi:
                     bench = f'bench/{data_set}_split_{r}.{DATA_TYPE[approach]}.{approach}.csv'
                     indicator = f'indicators/{data_set}_split_{r}.{DATA_TYPE[approach]}.{approach}'
                     if not isfile(bench):
@@ -60,7 +60,7 @@ def combine(data_sets, approaches, r_values, DATA_TYPE, out_file):
                         success = get_success_indicator(indicator)
                         writer.writerow([approach, data_set, r, success] + next(reader))
         for data_set in data_sets:
-            for approach in approaches:
+            for approach in approaches_single:
                 bench = f'bench/{data_set}.{DATA_TYPE[approach]}.{approach}.csv'
                 indicator = f'indicators/{data_set}.{DATA_TYPE[approach]}.{approach}'
                 if not isfile(bench):
@@ -69,4 +69,4 @@ def combine(data_sets, approaches, r_values, DATA_TYPE, out_file):
                     reader = csv.reader(g, delimiter="\t")
                     next(reader)  # Headers line
                     success = get_success_indicator(indicator)
-                    writer.writerow([approach, data_set, r, success] + next(reader))
+                    writer.writerow([approach, data_set, 0, success] + next(reader))
