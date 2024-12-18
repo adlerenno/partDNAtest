@@ -1,7 +1,5 @@
-from os import listdir
 import csv
 import re
-import sys
 import os
 from os.path import isfile
 
@@ -45,7 +43,7 @@ def combine(data_sets, approaches, r_values, DATA_TYPE, out_file):
         writer.writerow(['algorithm', 'dataset', 'r', 'successful', 's', 'h:m:s', 'max_rss', 'max_vms', 'max_uss', 'max_pss', 'io_in', 'io_out', 'mean_load', 'cpu_time'])
         for data_set in data_sets:
             for r in r_values:
-                bench = f'bench/{data_set}.{DATA_TYPE['partdna']}_{r}.partdna.csv'
+                bench = f'bench/{data_set}.{DATA_TYPE["partdna"]}_{r}.partdna.csv'
                 with open(bench, 'r') as g:
                     reader = csv.reader(g, delimiter="\t")
                     next(reader)  # Headers line
