@@ -551,7 +551,7 @@ rule fetch_ncbi_human_GRCh38:  # https://www.ncbi.nlm.nih.gov/assembly/GCF_00000
         """
         cd source
         wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/405/GCF_000001405.26_GRCh38/GCF_000001405.26_GRCh38_genomic.fna.gz
-        gzip -d GCF_000001405.26_GRCh38_genomic.fna.gz
+        yes | gzip -d GCF_000001405.26_GRCh38_genomic.fna.gz
         python3 ./../scripts/convert_grc_long.py GCF_000001405.26_GRCh38_genomic.fna GRCh38.fa
         """
 
@@ -562,7 +562,7 @@ rule fetch_ncbi_mouse_GRCm39:  # https://www.ncbi.nlm.nih.gov/assembly/GCF_00000
         """
         cd source
         wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/635/GCF_000001635.27_GRCm39/GCF_000001635.27_GRCm39_genomic.fna.gz
-        gzip -d GCF_000001635.27_GRCm39_genomic.fna.gz
+        yes | gzip -d GCF_000001635.27_GRCm39_genomic.fna.gz
         python3 ./../scripts/convert_grc_long.py GCF_000001635.27_GRCm39_genomic.fna GRCm39.fa
         """
 
@@ -573,7 +573,7 @@ rule fetch_ncbi_tiar10:  # https://www.ncbi.nlm.nih.gov/assembly/GCF_000001735.4
         """
         cd source
         wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/735/GCF_000001735.4_TAIR10.1/GCF_000001735.4_TAIR10.1_genomic.fna.gz
-        gzip -d GCF_000001735.4_TAIR10.1_genomic.fna.gz
+        yes | gzip -d GCF_000001735.4_TAIR10.1_genomic.fna.gz
         python3 ./../scripts/convert_grc_long.py GCF_000001735.4_TAIR10.1_genomic.fna TAIR10.fa
         """
 
@@ -584,7 +584,7 @@ rule fetch_ncbi_ecoli:  # https://www.ncbi.nlm.nih.gov/nuccore/U00096.3
         """
         cd source
         wget ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/005/845/GCA_000005845.2_ASM584v2/GCA_000005845.2_ASM584v2_genomic.fna.gz
-        gzip -d GCA_000005845.2_ASM584v2_genomic.fna.gz
+        yes | gzip -d GCA_000005845.2_ASM584v2_genomic.fna.gz
         python3 ./../scripts/convert_grc_long.py GCA_000005845.2_ASM584v2_genomic.fna ASM584.fa
         """
 
@@ -595,7 +595,7 @@ rule fetch_ncbi_bakeryeast:  # https://www.ncbi.nlm.nih.gov/assembly/GCF_0001460
         """
         cd source
         wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/146/045/GCF_000146045.2_R64/GCF_000146045.2_R64_genomic.fna.gz
-        gzip -d GCF_000146045.2_R64_genomic.fna.gz
+        yes | gzip -d GCF_000146045.2_R64_genomic.fna.gz
         python3 ./../scripts/convert_grc_long.py GCF_000146045.2_R64_genomic.fna R64.fa
         """
 
@@ -606,7 +606,7 @@ rule fetch_ncbi_tuberculosis:  # https://www.ncbi.nlm.nih.gov/assembly/GCF_00019
         """
         cd source
         wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/195/955/GCF_000195955.2_ASM19595v2/GCF_000195955.2_ASM19595v2_genomic.fna.gz
-        gzip -d GCF_000195955.2_ASM19595v2_genomic.fna.gz
+        yes | gzip -d GCF_000195955.2_ASM19595v2_genomic.fna.gz
         python3 ./../scripts/convert_grc_long.py GCF_000195955.2_ASM19595v2_genomic.fna ASM19595.fa
         """
 
@@ -617,7 +617,7 @@ rule fetch_ncbi_triticum_aestivum:  # https://www.ncbi.nlm.nih.gov/datasets/geno
         """
         cd source
         wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/018/294/505/GCF_018294505.1_IWGSC_CS_RefSeq_v2.1/GCF_018294505.1_IWGSC_CS_RefSeq_v2.1_genomic.fna.gz
-        gzip -d GCF_018294505.1_IWGSC_CS_RefSeq_v2.1_genomic.fna.gz
+        yes | gzip -d GCF_018294505.1_IWGSC_CS_RefSeq_v2.1_genomic.fna.gz
         python3 ./../scripts/convert_grc_long.py GCF_018294505.1_IWGSC_CS_RefSeq_v2.1_genomic.fna JAGHKL01.fa
         """
 
