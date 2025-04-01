@@ -17,19 +17,21 @@ RESULT = './results/'
 
 # Adjust tested settings here. Make sure if you add something, that you add a corresponding rule to provide the file or the approach
 APPROACHES_SINGLE = [
-    'ropebwt3',
-    'bigBWT',
-    'r_pfbwt',
-    'grlBWT',
-    'egap',
-    'gsufsort',
-    'divsufsort',
+#    'ropebwt3',
+#    'bigBWT',
+#    'r_pfbwt',
+#    'grlBWT',
+#    'egap',
+#    'gsufsort',
+#    'divsufsort',
+    'libsais'
 ]
 APPROACHES_MULTI = [
     'bcr',
-    'ropebwt',
-    'ropebwt2',
-    'ibb'
+#    'ropebwt',
+#    'ropebwt2',
+    'ibb',
+    'libsais'
 ]
 DATA_TYPE = {
     'bcr': 'fq.gz',
@@ -42,6 +44,7 @@ DATA_TYPE = {
     'egap': 'fa',
     'gsufsort': 'fq.gz',
     'divsufsort': 'fa',
+    'libsais': 'fa',
     'ibb': 'fa',
     'partdna': 'fa'
 }
@@ -332,6 +335,22 @@ rule divsufsort:
         echo 0 > {output.indicator}
         fi"""
 
+rule libsais:
+    input:
+        script='divsufsort-dna/build/sais-cli',
+        source='data/{filename}'
+    output:
+        indicator = 'indicators/{filename}.libsais'
+    params:
+        threads = NUMBER_OF_PROCESSORS
+    benchmark: 'bench/{filename}.libsais.csv'
+    shell:
+        """if {input.script} -i {input.source} -o data_bwt/libsais/{wildcards.filename} -t {NUMBER_OF_PROCESSORS}; then 
+        echo 1 > {output.indicator}
+        else
+        echo 0 > {output.indicator}
+        fi"""
+
 rule ibb:
     input:
         script = 'ibb/build/IBB-cli',
@@ -474,13 +493,16 @@ rule build_pfp:
         make
         """
 
-rule build_divsufsort:
+rule build_divsufsort_libsais_libcubwt:
     output:
-        script = 'divsufsort-dna/build/dss'
+        script = 'divsufsort-dna/build/dss',
+        script2 = 'divsufsort-dna/build/sais-cli'
     shell:
         """
         rm -rf ./libdivsufsort
         rm -rf ./divsufsort-dna
+        rm -rf ./libsais
+        rm -rf ./libcubwt
         git clone https://github.com/y-256/libdivsufsort.git
         cd libdivsufsort
         mkdir -p build
@@ -493,7 +515,7 @@ rule build_divsufsort:
         cd divsufsort-dna
         mkdir -p build
         cd build
-        cmake ..
+        cmake -DBUILD_DSS=ON -DBUILD_LIBSAIS=ON -DBUILD_LIBCUBWT=OFF ..
         make
 """
 
