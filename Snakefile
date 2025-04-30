@@ -17,19 +17,19 @@ RESULT = './results/'
 
 # Adjust tested settings here. Make sure if you add something, that you add a corresponding rule to provide the file or the approach
 APPROACHES_SINGLE = [
-#    'ropebwt3',
-#    'bigBWT',
-#    'r_pfbwt',
-#    'grlBWT',
-#    'egap',
-#    'gsufsort',
-#    'divsufsort',
+    'ropebwt3',
+    'bigBWT',
+    'r_pfbwt',
+    'grlBWT',
+    'egap',
+    'gsufsort',
+    'divsufsort',
     'libsais'
 ]
 APPROACHES_MULTI = [
     'bcr',
-#    'ropebwt',
-#    'ropebwt2',
+    'ropebwt',
+    'ropebwt2',
     'ibb',
     'libsais'
 ]
@@ -49,10 +49,11 @@ DATA_TYPE = {
     'partdna': 'fa'
 }
 DATA_SETS = ['GRCh38',
-             'GRCm39',
-             'TAIR10', 'ASM584', 'R64', 'ASM19595',
-             'JAGHKL01']
-R_VALUES = list(range(3, 6))
+             #'GRCm39',
+             #'TAIR10', 'ASM584', 'R64', 'ASM19595',
+             #'JAGHKL01'
+             ]
+R_VALUES = list(range(5, 6)) #3, 4
 
 FILES = [f'indicators/{file}.{DATA_TYPE[approach]}.{approach}'
          for approach in APPROACHES_SINGLE
